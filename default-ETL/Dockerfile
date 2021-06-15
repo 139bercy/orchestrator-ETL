@@ -32,4 +32,8 @@ RUN mkdir -p /app/logging
 # COPY src /app/src
 COPY conf /app/conf
 
+COPY main.py /app/main.py
+
+CMD [ "python3", "/app/main.py"]
+
 VOLUME /data
