@@ -10,11 +10,13 @@ RUN apk add --no-cache inotify-tools bash && apk add --no-cache --virtual compil
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-VOLUME /config
-VOLUME /scripts
 
 # WORKDIR /home/user
 # USER user
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY run.sh /run.sh
+COPY scripts/runner.sh /scripts/runner.sh
+
+VOLUME /config
+VOLUME /scripts

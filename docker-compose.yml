@@ -21,6 +21,12 @@ services:
       - /etc/localtime:/etc/localtime
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
+  pypel-default:
+    image: pypel-default:prod
+    build:
+      context: default-ETL
+      dockerfile: Dockerfile
+
 volumes:
   data-upload_data:
     external: true

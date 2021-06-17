@@ -5,9 +5,9 @@ from ssl import create_default_context
 
 import elasticsearch
 
-from pypel.processes import ProcessFactory
-from pypel.utils.elk.clean_index import clean_index
-from pypel.utils.elk.init_index import init_index
+from pypel import ProcessFactory
+from pypel import clean_index
+from pypel import init_index
 from pypel.utils.logs import initialize_rotating_logs
 
 logger = initialize_rotating_logs(__name__)
@@ -76,7 +76,7 @@ def get_index_pattern(params, process):
 def process_files(es, params, path_to_data, process_range: str = "all"):
     process_names = params["process"]
 
-    process_factory = ProcessFactory.ProcessFactory(path_to_data)
+    process_factory = ProcessFactory(path_to_data)
 
     if process_range == "all":
         for process_name in process_names.keys():
