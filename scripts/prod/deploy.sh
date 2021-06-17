@@ -20,8 +20,8 @@ docker run -d --name orchestrator-service-${date} \
   -v orchestrator_scripts:/scripts \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -v /etc/localtime:/etc/localtime \
-  -e DATA_VOLUME: \"data_upload_data\" \
-  data-upload-backend:prod
+  -e DATA_VOLUME=\"data_upload_data\" \
+  orchestrator:prod
 
 set +x
 "

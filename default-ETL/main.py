@@ -8,9 +8,9 @@ import elasticsearch
 from pypel import ProcessFactory
 from pypel import clean_index
 from pypel import init_index
-from pypel.utils.logs import initialize_rotating_logs
+from pypel.utils.logs import initialize_logs
 
-logger = initialize_rotating_logs(__name__)
+logger = initialize_logs(__name__)
 
 
 def main():
@@ -49,7 +49,7 @@ def main():
     index_pattern = get_index_pattern(params, process_range)
 
     clean = args.clean_indices
-    if clean == "yes":
+    if clean is True :
         clean_index(mappings, es_index_client, index_pattern)
         init_index(mappings, es_index_client, index_pattern)
     process_files(es, params, path_to_data, process_range)
@@ -58,7 +58,7 @@ def main():
 def get_args():
     parser = argparse.ArgumentParser(description='Process the type of Process')
     parser.add_argument("-p", "--process-type", default="all", type=str, help="get the type of Process")
-    parser.add_argument("-c", "--clean-indices", default="yes", type=str, help="specify if indices should be deleted")
+    parser.add_argument("-c", "--clean-indices", dest="clean_indices", action='store_true', help="specify if indices should be deleted")
     args = parser.parse_args()
     return args
 
@@ -99,7 +99,7 @@ def process_files(es, params, path_to_data, process_range: str = "all"):
 
 def process_folder(es, params, process_factory, process_name, path_to_data):
     elastic_index = params["process"][process_name]["index_pattern"]
-    process = process_factory.create_process(process_name, params["process"][process_name], elastic_index)
+    process = process_factory.create_process(params["process"][process_name], elastic_index)
 
     path_to_class_data = get_path_to_class_data(params, process_name, path_to_data=path_to_data)
 
