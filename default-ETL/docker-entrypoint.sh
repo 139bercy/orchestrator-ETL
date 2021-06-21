@@ -74,5 +74,6 @@ fi
 
 # run the python main.py file and display the logs
 #python3 /app/main.py $@
+echo "python3 /app/main.py $@"
 python3 /app/main.py $@
 cat /app/logging/*.log
