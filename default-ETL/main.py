@@ -49,7 +49,7 @@ def main():
     index_pattern = get_index_pattern(params, process_range)
 
     clean = args.clean_indices
-    if clean is True :
+    if clean is True:
         clean_index(mappings, es_index_client, index_pattern)
         init_index(mappings, es_index_client, index_pattern)
     process_files(es, params, path_to_data, process_range)
