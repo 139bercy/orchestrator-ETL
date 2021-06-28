@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+
+  orchestrator:
+    environment:
+      DATA_VOLUME: "/home/edaubert/workspace/data-upload/backend/storage"
+      PGHOST: postgres
+      PGUSER: admin
+      PGPASSWORD: admin
+      PGDATABASE: testdb
+    volumes:
+      - /home/edaubert/workspace/data-upload/backend/storage:/data
+      - ./orchestrator/config:/config
+      - ./orchestrator/scripts:/scripts
+      - ./orchestrator/run.sh:/run.sh
+      - ./orchestrator/docker-entrypoint.sh:/docker-entrypoint.sh

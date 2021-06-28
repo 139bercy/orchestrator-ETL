@@ -1,7 +1,7 @@
 {
   "process": {
     "default": {
-      "class": "pypel.processes.Process.Process",
+      "class": "pypel.Process",
       "path": "default",
       "index_pattern": "pypel-default"
     }
