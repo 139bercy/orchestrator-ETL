@@ -1,9 +1,25 @@
 {
-	"path_to_data": "/data/",
-	"kibana_info": "",
-	"host": "localhost",
-	"port": "9200",
-	"user": "elastic",
-	"pwd": "elastic",
-	"scheme": "http"
+	"Processes": [
+	  {
+		"name": "EXAMPLE",
+		"Extractor": {
+		  "name": "pypel.extractors.Extractor"
+		},
+		"Transformers": [
+		  {
+			"name": "pypel.transformers.Transformer"
+		  }
+		],
+		"Loader": {
+		  "name": "pypel.loaders.Loader",
+		  "indice": "pypel_bulk",
+		  "time_freq": "_%m_%Y",
+		  "overwrite": false,
+		  "es_conf": {
+			"user": "elastic",
+			"pwd": "changeme"
+		  }
+		}
+	  }
+	]
 }
