@@ -25,7 +25,6 @@ fi
 # Check elasticsearch_host
 if [[ ! -v elasticsearch_host ]]
 then
-  echo "TOTO${elasticsearch_host}TITI"
   echo "La variable elasticsearch_host n'est pas définie. La configuration par défaut, si elle existe, sera utilisée"
   elasticsearch_host=$(cat /app/conf/config.json | jq '.host' | sed 's/"//g')
 fi
@@ -48,16 +47,34 @@ then
   echo "Génération ..."
 cat <<EOF > /app/conf/config.json
 {
-	"path_to_data": "${path_to_data}",
-	"kibana_info": "${kibana_info}",
-  "host": "${elasticsearch_host:-localhost}",
-	"user": "${elasticsearch_user:-elastic}",
-	"pwd": "${elasticsearch_password:-elastic}",
-  "scheme": "${elasticsearch_scheme:-https}"
+	"Processes": [
+	  {
+		"name": "DEFAULT",
+		"Extractor": {
+		  "name": "pypel.extractors.Extractor"
+		},
+		"Transformers": [
+		  {
+			"name": "pypel.transformers.Transformer"
+		  }
+		],
+		"Loader": {
+		  "name": "pypel.loaders.Loader",
+		  "indice": "default",
+		  "time_freq": "_%m_%Y",
+		  "overwrite": false,
+		  "es_conf": {
+  			"user": "elastic",
+	  		"pwd": "changeme"
+		    }
+		  }
+	  }
+	]
 }
 EOF
 else
   echo "surcharge ..."
+  # TODO
   sed -e 's|"path_to_data": ".*"|"path_to_data": "'${path_to_data}'"|g' \
   -e 's/"kibana_info": ".*"/"kibana_info": "'${kibana_info}'"/g' \
   -e 's/"host": ".*"/"host": "'${elasticsearch_host:-localhost}'"/g' \
@@ -72,8 +89,9 @@ then
   cat /app/conf/config.json
 fi
 
-# run the python main.py file and display the logs
+# run pypel's main.py file and display the logs
 #python3 /app/main.py $@
-echo "python3 /app/main.py $@"
-python3 /app/main.py $@
+# TODO what file/path to pass ? /data ?
+echo "python3 /app/pypel/main.py -f ??? $@"
+python3 /app/pypel/main.py -f ??? $@
 cat /app/logging/*.log
