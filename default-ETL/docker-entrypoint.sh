@@ -65,11 +65,16 @@ cat <<EOF > /app/conf/config.json
 		  "overwrite": false,
 		  "es_conf": {
   			"user": "elastic",
-	  		"pwd": "changeme"
+	  		"pwd": "changeme",
+        "scheme": "https",
+        "port": "9200",
+        "host": "localhost",
+        "cafile": ""
 		    }
 		  }
 	  }
-	]
+	],
+  "kibana_info": ""
 }
 EOF
 else
@@ -92,6 +97,6 @@ fi
 # run pypel's main.py file and display the logs
 #python3 /app/main.py $@
 # TODO what file/path to pass ? /data ?
-echo "python3 /app/pypel/main.py -f ??? $@"
-python3 /app/pypel/main.py -f ??? $@
+echo "python3 /app/pypel/main.py -f ${path_to_data} $@"
+python3 /app/pypel/main.py -f ${path_to_data} $@
 cat /app/logging/*.log
