@@ -1,9 +1,0 @@
-{
-  "process": {
-    "default": {
-      "class": "pypel.Process",
-      "path": "default",
-      "index_pattern": "pypel-default"
-    }
-  }
-}
