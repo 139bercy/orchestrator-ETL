@@ -70,7 +70,6 @@ cat <<EOF > /app/conf/config.json
         "port": "9200",
         "host": "localhost",
         "cafile": ""
-		    }
 		  }
 	  }
 	],
@@ -81,11 +80,12 @@ else
   echo "surcharge ..."
   # TODO
   sed -e 's|"path_to_data": ".*"|"path_to_data": "'${path_to_data}'"|g' \
-  -e 's/"kibana_info": ".*"/"kibana_info": "'${kibana_info}'"/g' \
-  -e 's/"host": ".*"/"host": "'${elasticsearch_host:-localhost}'"/g' \
+  -e 's/"host": ".*"/"host": "'${elasticsearch_port:-localhost}'"/g' \
+  -e 's/"port": ".*"/"port": "'${elasticsearch_host:-9200}'"/g' \
   -e 's/"scheme": ".*"/"scheme": "'${elasticsearch_scheme:-https}'"/g' \
   -e 's/"user": ".*"/"user": "'${elasticsearch_user:-elastic}'"/g' \
   -e 's/"pwd": ".*"/"pwd": "'${elasticsearch_password:-elastic}'"/g' \
+  -e 's/"kibana_info": ".*"/"kibana_info": "'${kibana_info}'"/g' \
   -i /app/conf/config.json
 fi
 

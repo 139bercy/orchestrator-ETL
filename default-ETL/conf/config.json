@@ -16,8 +16,8 @@
 		  "time_freq": "_%m_%Y",
 		  "overwrite": false,
 		  "es_conf": {
-			"user": "elastic",
-			"pwd": "changeme"
+				"user": "elastic",
+				"pwd": "changeme"
 		  }
 		}
 	  }
