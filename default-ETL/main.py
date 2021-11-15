@@ -17,23 +17,16 @@ def main():
     with open("./conf/config.json") as f:
         config = json.load(f)
 
-    host = (config.get("user"), config.get("pwd"))
-
-    if "cafile" in config:
-        context = create_default_context(cafile=config["cafile"])
-        es = elasticsearch.Elasticsearch(
-            config.get("host", "localhost"),
-            http_auth=host,
-            use_ssl=True,
-            scheme=config["scheme"],
-            port=config["port"],
-            ssl_context=context,
-        )
-    else:
-        es = elasticsearch.Elasticsearch(
-            config.get("host", "localhost"),
-            http_auth=host,
-        )
+    es = elasticsearch.Elasticsearch([
+        {
+            'host': config.get("host", "localhost"),
+            'http_auth': (config.get("user"), config.get("pwd")),
+            'use_ssl': config.get("scheme", "http") == "https",
+            'scheme': config.get("scheme", 'http'),
+            'port': config.get("port", 9200),
+        }
+    ]
+    )
 
     es_index_client = elasticsearch.client.IndicesClient(es)
 
@@ -58,7 +51,8 @@ def main():
 def get_args():
     parser = argparse.ArgumentParser(description='Process the type of Process')
     parser.add_argument("-p", "--process-type", default="all", type=str, help="get the type of Process")
-    parser.add_argument("-c", "--clean-indices", dest="clean_indices", action='store_true', help="specify if indices should be deleted")
+    parser.add_argument("-c", "--clean-indices", dest="clean_indices", action='store_true',
+                        help="specify if indices should be deleted")
     args = parser.parse_args()
     return args
 

@@ -22,6 +22,8 @@ docker run -d --name orchestrator-service-${date} \
   -v /etc/localtime:/etc/localtime \
   -e DATA_VOLUME=\"data_upload_data\" \
   orchestrator:prod
+  -e DATA_VOLUME: \"data_upload_data\" \
+  data-upload-backend:prod
 
 set +x
 "
