@@ -78,15 +78,14 @@ cat <<EOF > /app/conf/config.json
 EOF
 else
   echo "surcharge ..."
-  # TODO
-  sed -e 's|"path_to_data": ".*"|"path_to_data": "'${path_to_data}'"|g' \
-  -e 's/"host": ".*"/"host": "'${elasticsearch_port:-localhost}'"/g' \
+  sed -e 's/"host": ".*"/"host": "'${elasticsearch_port:-localhost}'"/g' \
   -e 's/"port": ".*"/"port": "'${elasticsearch_host:-9200}'"/g' \
   -e 's/"scheme": ".*"/"scheme": "'${elasticsearch_scheme:-https}'"/g' \
   -e 's/"user": ".*"/"user": "'${elasticsearch_user:-elastic}'"/g' \
   -e 's/"pwd": ".*"/"pwd": "'${elasticsearch_password:-elastic}'"/g' \
   -e 's/"kibana_info": ".*"/"kibana_info": "'${kibana_info}'"/g' \
   -i /app/conf/config.json
+  # -e 's|"path_to_data": ".*"|"path_to_data": "'${path_to_data}'"|g' \
 fi
 
 if [[ "$DEBUG" == "true" ]]
@@ -97,6 +96,6 @@ fi
 # run pypel's main.py file and display the logs
 #python3 /app/main.py $@
 # TODO what file/path to pass ? /data ?
-echo "python3 /app/pypel/main.py -f ${path_to_data} $@"
+echo "python3 /app/pypel/main.py -c /app/conf/config.json -f ${path_to_data} $@"
 python3 /app/pypel/main.py -f ${path_to_data} $@
 cat /app/logging/*.log

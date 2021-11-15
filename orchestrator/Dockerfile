@@ -16,7 +16,8 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY run.sh /run.sh
-COPY scripts/runner.sh /scripts/runner.sh
+COPY scripts/runner-multiple-files.sh /scripts/runner-multiple-files.sh
+COPY scripts/runner-file.sh /scripts/runner-file.sh
 
 VOLUME /config
 VOLUME /scripts
