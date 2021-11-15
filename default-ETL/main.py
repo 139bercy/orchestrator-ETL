@@ -17,23 +17,16 @@ def main():
     with open("./conf/config.json") as f:
         config = json.load(f)
 
-    host = (config.get("user"), config.get("pwd"))
-
-    if "cafile" in config:
-        context = create_default_context(cafile=config["cafile"])
-        es = elasticsearch.Elasticsearch(
-            config.get("host", "localhost"),
-            http_auth=host,
-            use_ssl=True,
-            scheme=config["scheme"],
-            port=config["port"],
-            ssl_context=context,
-        )
-    else:
-        es = elasticsearch.Elasticsearch(
-            config.get("host", "localhost"),
-            http_auth=host,
-        )
+    es = elasticsearch.Elasticsearch([
+        {
+            'host': config.get("host", "localhost"),
+            'http_auth': (config.get("user"), config.get("pwd")),
+            'use_ssl': config.get("scheme", "http") == "https",
+            'scheme': config.get("scheme", 'http'),
+            'port': config.get("port", 9200),
+        }
+    ], verify_certs=False,
+    )
 
     es_index_client = elasticsearch.client.IndicesClient(es)
 
