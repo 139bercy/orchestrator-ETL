@@ -28,10 +28,10 @@ do
 
   echo "docker run --rm --network=host $DOCKER_OPTIONS --env-file \"$CONFIG\" -v \"$DATA_VOLUME\":/data \"$DOCKER_IMAGE\" $PARAMETERS"
   docker run --rm --network=host --env-file "$CONFIG" -v "$DATA_VOLUME":/data "$DOCKER_IMAGE" $PARAMETERS
-  
+
   if [[ -z ${BACKUP_FILE} && "${BACKUP_FILE}" == true ]]
   then
-    mkdir "/data/backup/$(echo $WATCH_DIR | sed 's|/data||')"
+    mkdir -p "/data/backup/$(echo $WATCH_DIR | sed 's|/data||')"
     mv "$file" "/data/backup/$(echo $WATCH_DIR | sed 's|/data||')/"
   fi
   if [[ -z ${REMOVE_FILE} && "${REMOVE_FILE}" == true ]]

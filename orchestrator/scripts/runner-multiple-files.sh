@@ -31,7 +31,7 @@ do
   echo "$file"
   if [[ -z ${BACKUP_FILE} && "${BACKUP_FILE}" == true ]]
   then
-    mkdir "/data/backup/$(echo $WATCH_DIR | sed 's|/data||')"
+    mkdir -p "/data/backup/$(echo $WATCH_DIR | sed 's|/data||')"
     mv "$file" "/data/backup/$(echo $WATCH_DIR | sed 's|/data||')/"
   fi
 
