@@ -3,13 +3,14 @@
 CONFIG="$1"
 
 WATCH_DIR="$(cat $CONFIG | grep "WATCH_DIR" | cut -d'=' -f2)"
+WATCH_REGEX="$(cat $CONFIG | grep "WATCH_REGEX" | cut -d'=' -f2)"
 COMMAND="$(cat $CONFIG | grep "COMMAND" | cut -d'=' -f2)"
 echo "Creating monitor for $(basename $CONFIG) by watching \"$WATCH_DIR\""
 
 while [[ 1 ]]
 do
   mkdir -p "$WATCH_DIR"
-  inotifywait $WATCH_DIR -r -m -e close_write |
+  inotifywait $WATCH_DIR -r -m -e close_write --include $WATCH_REGEX |
     while read path action file; do
       echo "Starting the command for '$file' in '$path'"
       bash "$COMMAND" "$path" "$action" "$file" $CONFIG
